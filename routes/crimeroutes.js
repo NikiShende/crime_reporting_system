@@ -5,7 +5,9 @@ const auth = require('../middleware/auth');  // adjust the path based on your fo
 const { reportCrime, getCrimes } = require("../controllers/crimecontroller");
 const { registerUser } = require("../controllers/register");
 const { loginUser } = require("../controllers/login");
+const { getNearestStations } = require("../controllers/getnearestpolice");
 
+router.get("/nearby-police", getNearestStations);
 
 // These must be actual functions
 router.post("/register", registerUser);
