@@ -3,9 +3,9 @@ const Crime = require("../models/crime");
 // Report a new crime
 const reportCrime = async (req, res) => {
     try {
-        const { title, description, location, latitude, longitude, reportedBy } = req.body;
+        const { title, description, location, latitude, longitude } = req.body;
 
-        if (!title || !description || !location || !reportedBy) {
+        if (!title || !description || !location ) {
             return res.status(400).json({ message: "All required fields must be provided" });
         }
 
@@ -15,7 +15,7 @@ const reportCrime = async (req, res) => {
             location,
             latitude,
             longitude,
-            reportedBy
+           
         });
 
         await crime.save();
