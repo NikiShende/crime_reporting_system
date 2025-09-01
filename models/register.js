@@ -1,9 +1,13 @@
 const mongoose = require("mongoose");
 
 const RegisterSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  password: String,
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  phone: { type: String, required: true, unique: true }, // 👈 add phone
+  password: { type: String, required: true },
 });
-const Register = mongoose.model("register", RegisterSchema); // 👈 must match "ref"
 
+// model name must be consistent with your ref
+const Register = mongoose.model("Register", RegisterSchema);
+
+module.exports = Register;
