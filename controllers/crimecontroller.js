@@ -28,11 +28,12 @@ const reportCrime = async (req, res) => {
 // Get all crime reports
 const getCrimes = async (req, res) => {
     try {
-        const crimes = await Crime.find().populate("reportedBy", "name email");
+        const crimes = await Crime.find();
         res.status(200).json(crimes);
     } catch (error) {
-        res.status(500).json({ message: "Error fetching crimes", error });
+        res.status(500).json({ message: "Error fetching crimes", error: error.message });
     }
 };
+
 
 module.exports = { reportCrime, getCrimes };

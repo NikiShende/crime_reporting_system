@@ -6,7 +6,7 @@ const crimeSchema = new mongoose.Schema({
     location: { type: String, required: true }, // text-based location
     latitude: { type: Number }, // optional for map integration
     longitude: { type: Number },
-    reportedBy: { type: mongoose.Schema.Types.ObjectId, ref: "register", required: true },
+    reportedBy: { type: mongoose.Schema.Types.ObjectId, ref: "Register", required: true },
     dateReported: { type: Date, default: Date.now }
 });
 
