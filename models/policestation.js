@@ -16,6 +16,7 @@ const policeStationSchema = new mongoose.Schema({
     }
 });
 
+
 // Create geospatial index
 policeStationSchema.index({ location: "2dsphere" });
 

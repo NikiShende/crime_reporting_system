@@ -6,6 +6,9 @@ const { reportCrime, getCrimes } = require("../controllers/crimecontroller");
 const { registerUser } = require("../controllers/register");
 const { loginUser } = require("../controllers/login");
 const { getNearestStations } = require("../controllers/getnearestpolice");
+const { getEmergencyContacts } = require("../controllers/getemergencycontact");
+
+router.get("/emergency-contacts", getEmergencyContacts);
 
 router.get("/nearby-police", getNearestStations);
 
