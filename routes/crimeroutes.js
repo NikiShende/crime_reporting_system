@@ -7,10 +7,12 @@ const { registerUser } = require("../controllers/register");
 const { loginUser } = require("../controllers/login");
 const { getNearestStations } = require("../controllers/getnearestpolice");
 const { getEmergencyContacts } = require("../controllers/getemergencycontact");
-
+const { getCrimeCategoryStats, getCrimeMonthlyStats } = require("../controllers/crimestatscontroller");
 router.get("/emergency-contacts", getEmergencyContacts);
 
 router.get("/nearby-police", getNearestStations);
+router.get("/stats/category", getCrimeCategoryStats); // [{crime_type:"Robbery", count:40},...]
+router.get("/stats/monthly", getCrimeMonthlyStats);  // [{month:"Jan", count:30},...]
 
 // These must be actual functions
 router.post("/register", registerUser);
