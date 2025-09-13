@@ -8,7 +8,11 @@ const { loginUser } = require("../controllers/login");
 const { getNearestStations } = require("../controllers/getnearestpolice");
 const { getEmergencyContacts } = require("../controllers/getemergencycontact");
 const { getCrimeCategoryStats, getCrimeMonthlyStats } = require("../controllers/crimestatscontroller");
+const { getProfile }= require("../controllers/profilecontroller");
+
 router.get("/emergency-contacts", getEmergencyContacts);
+
+router.get("/profile/:userId", getProfile);
 
 router.get("/nearby-police", getNearestStations);
 router.get("/stats/category", getCrimeCategoryStats); // [{crime_type:"Robbery", count:40},...]
