@@ -9,7 +9,10 @@ const { getNearestStations } = require("../controllers/getnearestpolice");
 const { getEmergencyContacts } = require("../controllers/getemergencycontact");
 const { getCrimeCategoryStats, getCrimeMonthlyStats } = require("../controllers/crimestatscontroller");
 const { getProfile }= require("../controllers/profilecontroller");
+const { forgotPassword, resetPassword } = require("../controllers/forgot-password");
 
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password/:token", resetPassword);
 router.get("/emergency-contacts", getEmergencyContacts);
 
 router.get("/profile/:userId", getProfile);

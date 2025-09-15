@@ -5,6 +5,8 @@ const RegisterSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   phone: { type: String, required: true, unique: true }, // 👈 add phone
   password: { type: String, required: true },
+  resetPasswordToken:{type:String},
+  resetPasswordExpires:{type:Date}
 });
 
 // model name must be consistent with your ref
