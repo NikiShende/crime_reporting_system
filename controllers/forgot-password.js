@@ -5,6 +5,9 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/register");
 
 // Forgot Password - send email link & return token (for testing)
+const CLIENT_URL = process.env.CLIENT_URL || "https://crime-reporting-system-71kx.onrender.com";
+
+// Forgot Password - send email link & return token (for testing)
 exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -16,7 +19,7 @@ exports.forgotPassword = async (req, res) => {
     const resetToken = crypto.randomBytes(20).toString("hex");
     console.log("Reset token:", resetToken);
 
-    // save token & expiry to user doc
+    // save token & expiry
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour expiry
     await user.save();
@@ -24,11 +27,12 @@ exports.forgotPassword = async (req, res) => {
     // 🚀 For testing: return token in response
     res.json({
       message: "Password reset token generated",
-      resetToken: resetToken, // copy this for reset-password API
+      resetToken: resetToken,
+      resetLink: `${CLIENT_URL}/api/reset-password/${resetToken}`, // <-- deployed link
       expiry: user.resetPasswordExpires,
     });
 
-    // ⚠️ Optional: send mail only in production
+    // ⚠️ Send mail in production
     /*
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -44,7 +48,7 @@ exports.forgotPassword = async (req, res) => {
       subject: "Password Reset",
       text: `You requested a password reset.\n\n
       Click the link to reset your password:\n
-      http://localhost:3000/reset-password/${resetToken}\n\n
+      ${CLIENT_URL}/api/reset-password/${resetToken}\n\n
       This link is valid for 1 hour.`,
     };
 
