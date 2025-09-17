@@ -12,16 +12,7 @@ const { getProfile }= require("../controllers/profilecontroller");
 const { forgotPassword, resetPassword ,verifyResetToken} = require("../controllers/forgot-password");
 
 router.post("/forgot-password", forgotPassword);
-app.get("/reset-password/:token", (req, res) => {
-  res.send(`
-    <h2>Reset Password</h2>
-    <form action="/api/reset-password/${req.params.token}" method="POST">
-      <input type="password" name="password" placeholder="Enter new password" required />
-      <button type="submit">Reset</button>
-    </form>
-  `);
-});
-
+router.get("/reset-password/:token", verifyResetToken);
 router.post("/reset-password/:token", resetPassword);
 router.get("/emergency-contacts", getEmergencyContacts);
 
