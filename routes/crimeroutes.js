@@ -12,7 +12,12 @@ const { getProfile }= require("../controllers/profilecontroller");
 const { forgotPassword, resetPassword } = require("../controllers/forgot-password");
 
 router.post("/forgot-password", forgotPassword);
-router.post("/reset-password/:token", resetPassword);
+// in your routes file
+router.get("/reset-password/:token", async (req, res) => {
+  const { token } = req.params;
+  res.send(`Your reset token is: ${token}. Please send a POST request with a new password to this endpoint.`);
+});
+
 router.get("/emergency-contacts", getEmergencyContacts);
 
 router.get("/profile/:userId", getProfile);
