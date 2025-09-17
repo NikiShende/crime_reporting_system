@@ -87,12 +87,15 @@
 //   }
 // };
 // controllers/authController.js
+
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcryptjs");
 const User = require("../models/register");
 
-// Forgot Password - send email link & return token (for testing)
+const CLIENT_URL = process.env.CLIENT_URL || "https://crime-reporting-system-71kx.onrender.com";
+
+// Forgot Password - send email link
 exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -102,47 +105,46 @@ exports.forgotPassword = async (req, res) => {
 
     // generate token
     const resetToken = crypto.randomBytes(20).toString("hex");
-    console.log("Reset token:", resetToken);
 
-    // save token & expiry to user doc
+    // save token & expiry
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour expiry
     await user.save();
 
-    // 🚀 For testing: return token in response
-    res.json({
-      message: "Password reset token generated",
-      resetToken: resetToken, // copy this for reset-password API
-      expiry: user.resetPasswordExpires,
-    });
-
-    // ⚠️ Optional: send mail only in production
-    /*
+    // transporter setup
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.EMAIL_USER, // your Gmail
+        pass: process.env.EMAIL_PASS, // app password (not Gmail password)
       },
     });
 
+    // mail options
     const mailOptions = {
       to: user.email,
       from: process.env.EMAIL_USER,
-      subject: "Password Reset",
-      text: `You requested a password reset.\n\n
-      Click the link to reset your password:\n
-      http://localhost:3000/reset-password/${resetToken}\n\n
-      This link is valid for 1 hour.`,
+      subject: "Password Reset - Crime Reporting System",
+      text: `Hello ${user.username || "User"},\n\n
+      You requested a password reset.\n\n
+      Click the link below to reset your password:\n
+      ${CLIENT_URL}/api/reset-password/${resetToken}\n\n
+      This link is valid for 1 hour.\n\n
+      If you did not request this, please ignore this email.`,
     };
 
+    // send mail
     await transporter.sendMail(mailOptions);
-    */
+
+    res.json({
+      message: "Password reset link sent to your email",
+    });
   } catch (err) {
     console.error("Forgot password error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 // Reset Password API
 exports.resetPassword = async (req, res) => {
