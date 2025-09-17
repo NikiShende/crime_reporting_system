@@ -116,7 +116,7 @@ exports.forgotPassword = async (req, res) => {
       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER, // your Gmail
-        pass: process.env.EMAIL_PASS, // app password (not Gmail password)
+        pass: process.env.EMAIL_PASS, // app password
       },
     });
 
@@ -136,8 +136,11 @@ exports.forgotPassword = async (req, res) => {
     // send mail
     await transporter.sendMail(mailOptions);
 
+    // return response with token (for testing)
     res.json({
       message: "Password reset link sent to your email",
+      resetToken: resetToken, // ✅ returned for testing
+      expiry: user.resetPasswordExpires, // ✅ optional
     });
   } catch (err) {
     console.error("Forgot password error:", err);
