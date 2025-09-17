@@ -128,7 +128,7 @@ exports.forgotPassword = async (req, res) => {
       text: `Hello ${user.username || "User"},\n\n
       You requested a password reset.\n\n
       Click the link below to reset your password:\n
-      ${CLIENT_URL}/api/reset-password/${resetToken}\n\n
+      ${CLIENT_URL}/reset-password/${resetToken}\n\n
       This link is valid for 1 hour.\n\n
       If you did not request this, please ignore this email.`,
     };
